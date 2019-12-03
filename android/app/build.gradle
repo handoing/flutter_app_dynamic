@@ -31,6 +31,15 @@ android {
         disable 'InvalidPackage'
     }
 
+    sourceSets{
+        main{
+            assets{
+                srcDirs 'src/main/assets'
+                srcDirs '../../src'
+            }
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.flutter_app_dynamic"

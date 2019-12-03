@@ -39,8 +39,6 @@ public class MainActivity extends FlutterActivity {
   private void init() {
     initChannel();
     initEngine();
-    initBasicJSRuntime();
-    initScript();
   }
 
   private void initChannel() {
@@ -59,6 +57,14 @@ public class MainActivity extends FlutterActivity {
                 arg.close();
               }
             });
+            result.success("success");
+            break;
+          case "callJsRuntimeMain":
+            jsEngine.close();
+            jsEngine.init();
+            initBasicJSRuntime();
+            initScript();
+            initMainScript();
             result.success("success");
             break;
           default:
@@ -89,6 +95,10 @@ public class MainActivity extends FlutterActivity {
     methodMap.put("postJsonTree", "postJsonTree");
     NativeJSFlutterApp NativeJSFlutterApp = new NativeJSFlutterApp();
     jsEngine.registerNativeObject(NativeJSFlutterApp, methodMap);
+    jsEngine.executeScriptPath("framework/index.js");
+  }
+
+  private void initMainScript() {
     jsEngine.executeMainScriptPath("main.js");
   }
 

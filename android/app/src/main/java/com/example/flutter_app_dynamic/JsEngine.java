@@ -21,10 +21,9 @@ public class JsEngine {
     public JsEngine(Context context) {
         this.context = context;
         this.executor = Executors.newSingleThreadExecutor();
-        init();
     }
 
-    private void init() {
+    public void init() {
         executor.execute(new Runnable() {
             @Override
             public void run() {

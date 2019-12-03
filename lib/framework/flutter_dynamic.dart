@@ -13,10 +13,12 @@ class FlutterDynamic {
   static setup() {
     if (_instance == null) {
       _instance = FlutterDynamic();
+
+      bindMethodChannel();
+
+      callJsRuntimeMain();
+
     }
-
-    bindMethodChannel();
-
     return _instance;
   }
 
@@ -31,6 +33,10 @@ class FlutterDynamic {
           break;
       }
     });
+  }
+
+  static void callJsRuntimeMain() {
+    jsFlutterMainChannel.invokeMethod("callJsRuntimeMain");
   }
 
   static Widget build() {
