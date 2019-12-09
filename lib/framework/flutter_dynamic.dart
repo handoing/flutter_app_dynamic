@@ -14,15 +14,18 @@ class FlutterDynamic {
     if (_instance == null) {
       _instance = FlutterDynamic();
 
-      bindMethodChannel();
-
-      callJsRuntimeMain();
+      _init();
 
     }
     return _instance;
   }
 
-  static void bindMethodChannel() {
+  static void _init() {
+    _bindMethodChannel();
+    _callJsRuntimeMain();
+  }
+
+  static void _bindMethodChannel() {
     jsFlutterMainChannel.setMethodCallHandler((MethodCall call) async {
       switch (call.method) {
         case "receiveJsonTree":
@@ -35,7 +38,7 @@ class FlutterDynamic {
     });
   }
 
-  static void callJsRuntimeMain() {
+  static void _callJsRuntimeMain() {
     jsFlutterMainChannel.invokeMethod("callJsRuntimeMain");
   }
 

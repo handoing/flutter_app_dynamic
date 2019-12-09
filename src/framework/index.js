@@ -1,4 +1,4 @@
-// base.js
+// Platform is environment variable
 const isBrowser = typeof Platform === 'undefined';
 
 function print(message) {
@@ -7,12 +7,13 @@ function print(message) {
     return;
   }
   if (typeof message === 'string') {
-    NativePrint(message);
+    NativePrint(message); // js call native print log
     return;
   }
   NativePrint('Message is not of string type!');
 }
 
+// browser support NativeJSFlutterApp Object.
 if (isBrowser) {
   window.NativeJSFlutterApp = {
     postJsonTree: function (result) {
@@ -81,7 +82,7 @@ class GestureDetector {
   constructor(options) {
     this.widgetName = "GestureDetector";
     this.child = options.child;
-    this.onTap = EventOwner.bindEvent(options.onTap);
+    this.onTap = eventOwner.bindEvent(options.onTap);
   }
 }
 
@@ -90,7 +91,7 @@ class FloatingActionButton {
     this.widgetName = "FloatingActionButton";
     this.child = options.child;
     this.tooltip = options.tooltip;
-    this.onPressed = EventOwner.bindEvent(options.onPressed);
+    this.onPressed = eventOwner.bindEvent(options.onPressed);
   }
 }
 
@@ -148,13 +149,12 @@ class StateWidget {
 
   setState(fun) {
     fun.call(this);
-    EventOwner.clearEvent();
+    eventOwner.clearEvent();
     buildOwner.updateWidget();
   }
 }
 
-// owner.js
-var EventOwner = (function () {
+const eventOwner = (function () {
   var id = 0;
   var idMap = {};
   var prefix = 'event';
@@ -178,7 +178,7 @@ var EventOwner = (function () {
   }
 })()
 
-var buildOwner = (function () {
+const buildOwner = (function () {
   var currentWidget = {};
 
   var supperTraversalKeys = [
@@ -236,9 +236,9 @@ var buildOwner = (function () {
   }
 })()
 
-// index.js
+// native call js method
 function updateEvent(event) {
-  EventOwner.fireEvent(event);
+  eventOwner.fireEvent(event);
 }
 
 function runApp(widget) {

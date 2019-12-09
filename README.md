@@ -1,16 +1,110 @@
 # flutter_app_dynamic
 
-A new Flutter application.
+A dynamic Flutter application.
+
+[![Platform](https://img.shields.io/badge/Platform-android-blue.svg)]()
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+**1. `lib/main.dart`**
 
-A few resources to get you started if this is your first Flutter project:
+```dart
+void main() {
+  FlutterDynamic.setup();
+  runApp(MyApp());
+}
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: FlutterDynamic.build(),
+    );
+  }
+}
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**2. `src/main.js`**
+
+```js
+class RootWidget extends StateWidget {
+  constructor() {
+    super();
+    this.state = {
+      count: 0
+    };
+  }
+
+  increment() {
+    this.setState(function () {
+      this.state.count++;
+    });
+  }
+
+  decrement() {
+    this.setState(function () {
+      this.state.count--;
+    });
+  }
+
+  build() {
+    let app = new Scaffold({
+      appBar: new AppBar({
+        title: new Text("Flutter Demo")
+      }),
+      body: new Center({
+        child: new Column({
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            new Text('You have pushed the button this many times:'),
+            new Text(`${this.state.count}`),
+            new CustomWidget(this.state.count)
+          ]
+        })
+      }),
+      floatingActionButton: new Column({
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          new Padding({
+            padding: EdgeInsets.symmetric({
+              vertical: 5.0
+            }),
+            child: new FloatingActionButton({
+              onPressed: this.increment.bind(this),
+              tooltip: 'Increment',
+              child: new Icon(Icons.add),
+            }),
+          }),
+          new Padding({
+            padding: EdgeInsets.symmetric({
+              vertical: 5.0
+            }),
+            child: new FloatingActionButton({
+              onPressed: this.decrement.bind(this),
+              tooltip: 'Decrement',
+              child: new Icon(Icons.remove),
+            }),
+          })
+        ]
+      })
+    });
+
+    return app;
+  }
+}
+
+function main() {
+  print('[runtime] main');
+  runApp(new RootWidget());
+}
+```
+
+## Note
+
+flutter_app_dynamic is immature, only for learning.

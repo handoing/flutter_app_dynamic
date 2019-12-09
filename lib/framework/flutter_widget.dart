@@ -34,7 +34,9 @@ class _FlutterWidgetState extends State<FlutterWidget> {
         stream: _streamController.stream,
         initialData: FrameworkBuildOwner.createNode(initJsonTree),
         builder: (BuildContext context, AsyncSnapshot snapshot){
+
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+
           return DynamicWidgetBuilder.buildWidget(snapshot.data);
         }
     );

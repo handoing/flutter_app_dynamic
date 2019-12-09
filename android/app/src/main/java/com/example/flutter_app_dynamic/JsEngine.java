@@ -20,17 +20,22 @@ public class JsEngine {
 
     public JsEngine(Context context) {
         this.context = context;
+        // 创建单线程化线程池
         this.executor = Executors.newSingleThreadExecutor();
     }
 
     public void init() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                runtime = V8.createV8Runtime();
-                runtime.add("Platform", "android");
-            }
-        });
+        try {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    runtime = V8.createV8Runtime();
+                    runtime.add("Platform", "android");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void execute(Runnable action) {
@@ -116,17 +121,17 @@ public class JsEngine {
     }
 
     public void close() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (runtime != null) {
-                    try {
+        try {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (runtime != null) {
                         runtime.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

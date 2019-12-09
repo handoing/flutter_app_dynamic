@@ -104,8 +104,10 @@ public class MainActivity extends FlutterActivity {
 
   public class NativeJSFlutterApp {
     public void postJsonTree(V8Object jsObject) {
-      System.out.println("[JSON]:" + jsObject.getString("data"));
+      System.out.println("[JSON]: " + jsObject.getString("data"));
       String jsonTree = jsObject.getString("data");
+
+      // Methods marked with @UiThread must be executed on the main thread.
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
